@@ -8,13 +8,16 @@ import pyperclip
 import time
 import csv
 
+
+# csv 쓰기
 f = open('write.csv','w', newline='')
 wr = csv.writer(f)
 
+
 browser = webdriver.Chrome('./chromedriver') # 현재파일과 동일한 경로일 경우 생략 가능
 
-user_id = 'eotjd8721'
-user_pw = 'rmfwk789!'
+user_id = '네이버아이디'
+user_pw = '네이버비밀번호'
 
 # 1. 네이버 이동
 browser.get('https://cafe.naver.com/kyerongapartment')
@@ -42,18 +45,22 @@ time.sleep(2)
 # 5. 로그인 버튼 클릭
 browser.find_element(By.ID,'log.login').click()
 
-
+# 미니 검색창에 층간 소음 매트 검색
 textfield = browser.find_element(By.CSS_SELECTOR,'input#topLayerQueryInput')
 textfield.send_keys('층간 소음 매트')
 textfield.send_keys(Keys.ENTER)
 
 time.sleep(1)
+
+
 frame = browser.find_element(By.ID,'cafe_main')
 browser.switch_to.frame(frame)
 next_cols = browser.find_element(By.CLASS_NAME,'prev-next').find_elements(By.TAG_NAME,'a')
 browser.switch_to.default_content()
 wr.writerow(["번호","글 제목","글 내용","댓글"])
-for i in range(1, 2):
+
+# 페이지별
+for i in range(1, len(next_cols)):
 
     page = browser.get(f"""https://cafe.naver.com/kyerongapartment?iframe_url=/ArticleSearchList.nhn%3Fsearch.clubid=11512007%26search.media=0%26search.searchdate=all%26userDisplay=15%26search.option=0%26search.sortBy=date%26search.searchBy=1%26search.query=%C3%FE%B0%A3+%BC%D2%C0%BD+%B8%C5%C6%AE%26search.viewtype=title%26search.page={i}""")
     
@@ -63,13 +70,12 @@ for i in range(1, 2):
     #tableRows = board.find_elements(By.TAG_NAME,'tr')
     tableRows = board.find_elements(By.CLASS_NAME,"article")
     browser.switch_to.default_content()
-
+    
+    # 아티클별
     for j,article in enumerate(tableRows):
-      print("모야야")
       #article = tr.find_element(By.CLASS_NAME,'td_article').find_element(By.CLASS_NAME,'article')
       # writtenDate = tr.find_element(By.CLASS_NAME,'td_date').text
       # print(writtenDate)
-      # print(article)
 
       frame = browser.find_element(By.ID,'cafe_main')
       browser.switch_to.frame(frame)  
@@ -112,9 +118,6 @@ for i in range(1, 2):
       except:
           print("댓글 없음")
           csvContents.append("")
-
-
-      print("야야")
   
       if  article_content.find("010") == -1  :
         wr.writerow(csvContents)
