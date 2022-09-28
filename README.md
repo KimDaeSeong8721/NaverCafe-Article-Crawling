@@ -16,3 +16,8 @@
 2. 네이버아이디,비밀번호 삽입
 3. 원하는 키워드로 변경
 4. 원하는 페이지까지를 위해 for문의 range 수정 
+
+
+
+https://user-images.githubusercontent.com/69894461/192721929-5935e9c7-0feb-4b35-b805-06f15ada6e86.mov
+
